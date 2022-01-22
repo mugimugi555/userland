@@ -31,6 +31,6 @@ make -j2 ;
 pkg-config --modversion opencv4 ;
 
 echo export PYTHONPATH="/usr/local/lib/python3.7/site-packages:$PYTHONPATH" >> ~/.bash_profile ;
-source ~/.bash_profile
+source ~/.bash_profile ;
 
 python3 -c "import cv2; print(cv2.__version__)" ;
