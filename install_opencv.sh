@@ -12,12 +12,14 @@ sudo apt install -y build-essential cmake git pkg-config libgtk-3-dev \
     libtbb2 libtbb-dev libdc1394-22-dev ;
     
 cd ;
-mkdir ~/opencv_build && cd ~/opencv_build ;
+mkdir ~/opencv_build ;
+cd ~/opencv_build ;
 git clone https://github.com/opencv/opencv.git ;
 git clone https://github.com/opencv/opencv_contrib.git ;
-cd ~/opencv_build/opencv ;
-mkdir build && cd build ;
+mkdir build ;
+cd build ;
 
+export LD_LIBRARY_PATH="" ;
 # echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local-lib.conf ;
 # ldconfig -v ;
 
