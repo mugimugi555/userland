@@ -18,6 +18,9 @@ git clone https://github.com/opencv/opencv_contrib.git ;
 cd ~/opencv_build/opencv ;
 mkdir build && cd build ;
 
+# echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local-lib.conf ;
+# ldconfig -v ;
+
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
     -D INSTALL_C_EXAMPLES=ON \
