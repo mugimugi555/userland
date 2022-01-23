@@ -1,6 +1,6 @@
 # userland
 
-### install misc
+### install apps and japanesed
 wget https://raw.githubusercontent.com/mugimugi555/userland/main/install.sh && bash install.sh
 
 ### install opencv
