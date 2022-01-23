@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# wget https://raw.githubusercontent.com/mugimugi555/userland/main/install_tflite.sh && bash install_tflite.sh ;
+
 #
 sudo apt update ;
 sudo apt upgrade -y ;
