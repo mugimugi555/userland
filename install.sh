@@ -26,6 +26,9 @@ sudo apt install -y gtk2-engines-pixbuf ;
 sudo apt install -y libcanberra-gtk* ;
 
 #
+sudo apt install -y apache2 php mariadb-server ;
+
+#
 sudo apt install -y python3-pip ;
 sudo -H pip install --upgrade youtube-dl ;
 
