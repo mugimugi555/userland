@@ -15,8 +15,8 @@ sudo apt install -y libreoffice libreoffice-l10n-ja libreoffice-dmaths libreoffi
 
 #
 sudo apt install -y chromium ;
-echo "alias chrome='chromium --no-sandbox'" >> ~/.profile
-source ~/.profile
+echo "alias chrome='chromium --no-sandbox'" >> ~/.profile ;
+source ~/.profile ;
 
 #
 sudo apt install -y gimp ;
@@ -40,4 +40,4 @@ export LANG=ja_JP.UTF-8 ;
 echo "export LANG=ja_JP.UTF-8" >> ~/.profile ;
 
 #
-echo "please reboot userland app";
+echo "please reboot userland app" ;
