@@ -11,6 +11,9 @@ sudo apt install -y git curl htop net-tools emacs-nox lame unar axel vlc gedit b
 #sudo apt install -y kdenlive ;
 
 #
+sudo apt install -y libreoffice libreoffice-l10n-ja libreoffice-dmaths libreoffice-ogltrans libreoffice-writer2xhtml libreoffice-pdfimport libreoffice-help-ja ;
+
+#
 sudo apt install -y chromium ;
 echo "alias chrome='chromium --no-sandbox'" >> ~/.profile
 source ~/.profile
