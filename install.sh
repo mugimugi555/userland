@@ -12,11 +12,11 @@ sudo apt install -y chromium ;
 #sudo apt install -y kdenlive ;
 
 #
-sudo apt install -y fonts-takao-pgothic fonts-takao-gothic fonts-takao-mincho ;
-sudo apt install -y locales ;
+#sudo apt install -y fonts-takao-pgothic fonts-takao-gothic fonts-takao-mincho ;
+#sudo apt install -y locales ;
 #sudo dpkg-reconfigure locales ;
-export LANG=ja_JP.UTF-8 ;
-echo "export LANG=ja_JP.UTF-8" >> ~/.profile ;
+#export LANG=ja_JP.UTF-8 ;
+#echo "export LANG=ja_JP.UTF-8" >> ~/.profile ;
 
 #
 sudo rm /etc/localtime ;
