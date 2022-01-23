@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# wget https://raw.githubusercontent.com/mugimugi555/userland/main/install.sh && bash install.sh ;
+
 #
 sudo apt update ;
 sudo apt upgrade -y ;
