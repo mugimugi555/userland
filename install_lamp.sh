@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+# wget https://raw.githubusercontent.com/mugimugi555/userland/main/install_lamp.sh && bash install_lamp.sh ;
+
 sudo apt install -y apache2 php mariadb-server ;
 
 sudo sed -e 's/80/8080/' /etc/apache2/ports.conf ;
