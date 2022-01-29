@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+# wget https://raw.githubusercontent.com/mugimugi555/userland/main/install_wordpress.sh && bash install_wordpress.sh ;
+
 #
 sudo apt install -y unzip ;
 
