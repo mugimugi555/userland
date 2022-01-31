@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-#
+# wget https://raw.githubusercontent.com/mugimugi555/userland/main/ubuntu/install_lamp.sh && bash install_lamp.sh ;
 
 #
 sudo apt install -y software-properties-common ;
