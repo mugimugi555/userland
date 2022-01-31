@@ -1,9 +1,10 @@
 #!/usr/bin/bash
 
-#
+# wget https://raw.githubusercontent.com/mugimugi555/userland/main/ubuntu/install_rails.sh && install_rails.sh ;
 
 # install rbenv
 cd ;
+sudo apt update ;
 sudo apt install -y git-all ;
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv ;
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile ;
