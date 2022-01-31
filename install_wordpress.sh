@@ -4,7 +4,9 @@
 
 #
 sudo apt install -y unzip ;
-# sudo apt install -y apache2 php php-mysql mariadb-server ;
+#sudo apt install -y apache2 php php-mysql mariadb-server ;
+#sudo service mysql start ;
+#/usr/sbin/apachectl start ;
 
 #
 cd /var/www/html ;
