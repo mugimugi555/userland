@@ -12,7 +12,7 @@ unzip latest-ja.zip ;
 
 #
 echo "SHOW DATABASES;"                                                               | sudo mysql -uroot ;
-echo "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;" | sudo mysql ;
+echo "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;" | sudo mysql -uroot ;
 echo "CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'password';"                 | sudo mysql -uroot ;
 echo "GRANT ALL ON wordpress.* TO 'wordpress'@'localhost';"                          | sudo mysql -uroot ;
 echo "SHOW DATABASES;"                                                               | sudo mysql -uroot ;
