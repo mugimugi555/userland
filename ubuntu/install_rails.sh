@@ -29,7 +29,7 @@ cd ;
 wget https://raw.githubusercontent.com/mugimugi555/ubuntu/main/install_nodejs.sh && bash install_nodejs.sh ;
 
 # install misc
-sudo apt install yarn ;
+sudo apt install -y yarn ;
 sudo apt install -y sqlite3 libsqlite3-dev ;
 
 # install rails 7
