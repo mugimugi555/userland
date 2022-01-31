@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# wget https://raw.githubusercontent.com/mugimugi555/userland/main/install_laravel.sh && bash install_laravel.sh ;
+# wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_laravel.sh && bash install_laravel.sh ;
 
 cd;
 sudo echo;
