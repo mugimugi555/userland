@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install.sh && bash install.sh ;
+# sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install.sh && bash install.sh ;
 
 #
 sudo apt update ;
