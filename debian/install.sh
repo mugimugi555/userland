@@ -7,7 +7,7 @@ sudo apt update ;
 sudo apt upgrade -y ;
 
 #
-sudo apt install -y git curl htop net-tools emacs-nox lame unar axel vlc gedit build-essential ffmpeg imagemagick ;
+sudo apt install -y wget git curl htop net-tools emacs-nox lame unar axel vlc gedit build-essential ffmpeg imagemagick ;
 #sudo apt install -y handbrake ;
 #sudo apt install -y inetutils-ping ;
 #sudo apt install -y kdenlive ;
