@@ -11,12 +11,12 @@ wget https://ja.wordpress.org/latest-ja.zip ;
 unzip latest-ja.zip ;
 
 #
-echo "SHOW DATABASES;"                                               | sudo mysql -uroot ;
-echo "CREATE DATABASE wordpress ;"                                   | sudo mysql -uroot ;
-echo "CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'password';" | sudo mysql -uroot ;
-echo "GRANT ALL ON wordpress.* TO 'wordpress'@'localhost';"          | sudo mysql -uroot ;
-echo "SHOW DATABASES;"                                               | sudo mysql -uroot ;
-echo "SELECT user, host FROM mysql.user;"                            | sudo mysql -uroot ;
+echo "SHOW DATABASES;"                                                               | sudo mysql -uroot ;
+echo "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;" | sudo mysql ;
+echo "CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'password';"                 | sudo mysql -uroot ;
+echo "GRANT ALL ON wordpress.* TO 'wordpress'@'localhost';"                          | sudo mysql -uroot ;
+echo "SHOW DATABASES;"                                                               | sudo mysql -uroot ;
+echo "SELECT user, host FROM mysql.user;"                                            | sudo mysql -uroot ;
 
 #
 LOCAL_IPADDRESS=`hostname -I | awk -F" " '{print $1}'` ;
