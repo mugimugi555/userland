@@ -1,6 +1,6 @@
 # userland
 
-for xfce debian ( not ubuntu )
+for xfce debian
 
 ### install apps and japanesed
 wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install.sh && bash install.sh
@@ -10,3 +10,8 @@ wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_
 
 ### install tflite
 wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_tflite.sh && bash install_tflite.sh
+
+
+for ubuntu
+
+wget https://raw.githubusercontent.com/mugimugi555/userland/main/ubuntu/install.sh && bash install.sh
