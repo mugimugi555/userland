@@ -13,7 +13,7 @@ sudo apt install -y git curl htop net-tools emacs-nox lame unar axel vlc gedit b
 #sudo apt install -y kdenlive ;
 
 #
-sudo apt install -y libreoffice libreoffice-l10n-ja libreoffice-dmaths libreoffice-ogltrans libreoffice-writer2xhtml libreoffice-pdfimport libreoffice-help-ja ;
+#sudo apt install -y libreoffice libreoffice-l10n-ja libreoffice-dmaths libreoffice-ogltrans libreoffice-writer2xhtml libreoffice-pdfimport libreoffice-help-ja ;
 
 #
 sudo apt install -y chromium ;
@@ -26,7 +26,7 @@ sudo apt install -y gtk2-engines-pixbuf ;
 sudo apt install -y libcanberra-gtk* ;
 
 #
-sudo apt install -y apache2 php mariadb-server ;
+#sudo apt install -y apache2 php mariadb-server ;
 
 #
 sudo apt install -y python3-pip ;
