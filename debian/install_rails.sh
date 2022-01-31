@@ -17,11 +17,11 @@ sudo apt install -y \
 	autoconf bison build-essential libssl-dev \
 	libyaml-dev libreadline6-dev zlib1g-dev \
 	libncurses5-dev libffi-dev libgdbm6 libgdbm-dev ;
-rbenv install 3.1.0 ;
+#rbenv install 3.1.0 ;
 #rbenv install 3.0.3 ;
-#rbenv install 2.7.5 ;
+rbenv install 2.7.5 ;
 rbenv versions ;
-rbenv global 3.1.0 ;
+rbenv global 2.7.5 ;
 ruby -v ;
 
 # install nodejs latest
