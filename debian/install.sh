@@ -40,7 +40,9 @@ sudo dpkg-reconfigure -f noninteractive tzdata ;
 #
 sudo apt install -y fonts-takao-pgothic fonts-takao-gothic fonts-takao-mincho ;
 sudo apt install -y locales ;
-sudo dpkg-reconfigure locales ;
+update-locale LANG=ja_JP.UTF-8 ;
+locale-gen --purge "ja_JP.UTF-8" ;
+sudo dpkg-reconfigure --frontend noninteractive locales ;
 export LANG=ja_JP.UTF-8 ;
 echo "export LANG=ja_JP.UTF-8" >> ~/.profile ;
 
