@@ -32,13 +32,13 @@ wget https://raw.githubusercontent.com/mugimugi555/ubuntu/main/install_nodejs.sh
 sudo apt install -y yarn ;
 sudo apt install -y sqlite3 libsqlite3-dev ;
 
-# install rails 6
+# install rails
 gem search -ea rails ;
-gem install rails -v 6.1.4.4 ;
+gem install rails -v 5.2.6 ;
 rails -v ;
 gem list rails ;
 
-rails new blog ;
+rails _5.2.6_ new blog ;
 cd blog ;
 LOCAL_IPADDRESS=`hostname -I | awk -F" " '{print $1}'` ;
 echo $LOCAL_IPADDRESS ;
