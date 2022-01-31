@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+# for userland ubuntu 20 ( focal ) ssh or vnc
+
 # wget https://raw.githubusercontent.com/mugimugi555/userland/main/ubuntu/install_rails.sh && install_rails.sh ;
 
 # install rbenv
