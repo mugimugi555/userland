@@ -21,3 +21,4 @@ sudo apt update ;
 sudo apt upgrade -y ;
 sudo apt full-upgrade -y ;
 # apt upgrade --without-new-pkgs
+sudo apt autoremove -y ;
