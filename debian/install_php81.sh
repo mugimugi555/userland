@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-#
+# sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_php81.sh && bash install_php81.sh ;
 
 VERSION_CODENAME=$(env -i bash -c '. /etc/os-release; echo $VERSION_CODENAME') ;
 
