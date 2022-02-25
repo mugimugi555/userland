@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_bullseye.sh && bash install_bullseye.sh ;
+# sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_bullseye.sh && bash install_bullseye.sh ;
 
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.back ;
 
