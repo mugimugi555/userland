@@ -6,11 +6,9 @@ sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.
 
 sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_php81.sh && bash install_php81.sh ;
 
-exit;
+sudo apt install -y libc6-dev ;
 
-echo $USER ;
-
-mkdir ~/web ;
+mkdir ~/www ;
 
 mkdir ~/.config/nginx ;
 mkdir ~/.config/nginx/includes ;
@@ -19,6 +17,9 @@ touch ~/.config/nginx/nginx.conf ;
 touch ~/.config/nginx/error.log ;
 
 NGINX_CONF=$(cat<<TEXT
+error_log /home/$USER/.config/nginx/error.log info;
+pid /dev/null;
+events { worker_connections 128; }
 http {
         include mimes.conf; #for custom file types
         default_type application/octet-stream;
@@ -58,7 +59,7 @@ http {
 }
 TEXT
 )
-echo $NGINX_CONF > ~/.config/nginx/nginx.conf ;
+echo "$NGINX_CONF" > ~/.config/nginx/nginx.conf ;
 
 touch ~/.config/nginx/mimes.conf ;
 NGINX_MIMES=$(cat<<TEXT
@@ -141,7 +142,7 @@ types {
 }
 TEXT
 )
-echo $NGINX_MIMES > ~/.config/nginx/mimes.conf ;
+echo "$NGINX_MIMES" > ~/.config/nginx/mimes.conf ;
 
 # touch ~/.config/nginx/htpasswd.conf ;
 # echo 'username:'$(crypt password) >> ~/.config/nginx/htpasswd.conf ;
@@ -151,30 +152,31 @@ chmod +x ~/.config/nginx/start ;
 NGINX_START=$(cat<<TEXT
 #!/bin/bash
 # start
+LD_LIBRARY_PATH="" ;
 /usr/sbin/nginx -c ~/.config/nginx/nginx.conf &> /dev/null ;
 TEXT
 )
-echo $NGINX_START > ~/.config/nginx/start ;
+echo "$NGINX_START" > ~/.config/nginx/start ;
 
 touch ~/.config/nginx/stop ;
+chmod +x ~/.config/nginx/stop ;
 NGINX_STOP=$(cat<<TEXT
 #!/bin/bash
 # stop
 pkill -f nginx/nginx.conf
 TEXT
 )
-echo $NGINX_STOP > ~/.config/nginx/stop ;
+echo "$NGINX_STOP" > ~/.config/nginx/stop ;
 
-crontab -e ;
-@reboot ~/.config/nginx/start
-
+# echo "@reboot ~/.config/nginx/start" | crontab -
+#
 # openssl req -new -x509 -nodes -out 
 # ~/.config/nginx/server.crt -keyout ~/.config/nginx/server.key
-
+#
 #nano nginx.conf ;
 #
-#        listen 15954 ssl; # Replace existing line
-#        listen [::]:15954 ssl; # Replace existing line
+#        listen 8088 ssl; # Replace existing line
+#        listen [::]:8088 ssl; # Replace existing line
 #        # ssl on;
 #        ssl_certificate /home/$USER/.config/nginx/server.crt;
 #        ssl_certificate_key /home/$USER/.config/nginx/server.key; 
@@ -200,34 +202,51 @@ pm.min_spare_servers = 1
 pm.max_spare_servers = 5
 TEXT
 )
-echo $PHP_CONF > ~/.config/php-fpm/conf ;
+echo "$PHP_CONF" > ~/.config/php-fpm/conf ;
 
+touch ~/.config/php-fpm/start ;
+chmod +x ~/.config/php-fpm/start ;
+PHP_START=$(cat<<TEXT
+#!/bin/bash
 # start
-php-fpm --fpm-config ~/.config/php-fpm/conf ;
+php-fpm8.1 --fpm-config ~/.config/php-fpm/conf ;
+TEXT
+)
+echo "$PHP_START" > ~/.config/php-fpm/start ;
+
+touch ~/.config/php-fpm/stop ;
+chmod +x ~/.config/php-fpm/stop ;
+PHP_STOP=$(cat<<TEXT
+#!/bin/bash
+# stop
+pkill php-fpm
+TEXT
+)
+echo "$PHP_STOP" > ~/.config/php-fpm/stop ;
 
 touch ~/.config/nginx/fastcgi_params ;
 PHP_CONF=$(cat<<TEXT
-fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+fastcgi_param  SCRIPT_FILENAME    \$document_root\$fastcgi_script_name;
 
-fastcgi_param  QUERY_STRING       $query_string;
-fastcgi_param  REQUEST_METHOD     $request_method;
-fastcgi_param  CONTENT_TYPE       $content_type;
-fastcgi_param  CONTENT_LENGTH     $content_length;
+fastcgi_param  QUERY_STRING       \$query_string;
+fastcgi_param  REQUEST_METHOD     \$request_method;
+fastcgi_param  CONTENT_TYPE       \$content_type;
+fastcgi_param  CONTENT_LENGTH     \$content_length;
 
-fastcgi_param  SCRIPT_NAME        $fastcgi_script_name;
-fastcgi_param  REQUEST_URI        $request_uri;
-fastcgi_param  DOCUMENT_URI       $document_uri;
-fastcgi_param  DOCUMENT_ROOT      $document_root;
-fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+fastcgi_param  SCRIPT_NAME        \$fastcgi_script_name;
+fastcgi_param  REQUEST_URI        \$request_uri;
+fastcgi_param  DOCUMENT_URI       \$document_uri;
+fastcgi_param  DOCUMENT_ROOT      \$document_root;
+fastcgi_param  SERVER_PROTOCOL    \$server_protocol;
 
 fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
 fastcgi_param  SERVER_SOFTWARE    WebServer;
 
-fastcgi_param  REMOTE_ADDR        $remote_addr;
-fastcgi_param  REMOTE_PORT        $remote_port;
-fastcgi_param  SERVER_ADDR        $server_addr;
-fastcgi_param  SERVER_PORT        $server_port;
-fastcgi_param  SERVER_NAME        $server_name;
+fastcgi_param  REMOTE_ADDR        \$remote_addr;
+fastcgi_param  REMOTE_PORT        \$remote_port;
+fastcgi_param  SERVER_ADDR        \$server_addr;
+fastcgi_param  SERVER_PORT        \$server_port;
+fastcgi_param  SERVER_NAME        \$server_name;
 
 fastcgi_connect_timeout 60;
 fastcgi_send_timeout 180;
@@ -239,17 +258,27 @@ fastcgi_temp_file_write_size 256k;
 fastcgi_intercept_errors on;
 TEXT
 )
-echo $PHP_CONF > ~/.config/nginx/fastcgi_params ;
+echo "$PHP_CONF" > ~/.config/nginx/fastcgi_params ;
 
 touch ~/.config/nginx/includes/php.conf ;
 PHP_SOCKET=$(cat<<TEXT
-location ~ \.php$ {
+location ~ \.php\$ {
     include fastcgi_params;
     fastcgi_pass unix:/home/$USER/.config/php-fpm/socket;
 }
 TEXT
 )
-echo $PHP_SOCKET > ~/.config/nginx/includes/php.conf ;
+echo "$PHP_SOCKET" > ~/.config/nginx/includes/php.conf ;
 
+~/.config/php-fpm/stop ;
 ~/.config/nginx/stop ;
+~/.config/php-fpm/start ;
 ~/.config/nginx/start ;
+
+echo "<php phpinfo(); " > ~/www/index.php ;
+IPADDRESS=$( hostname -I | cut -f1 -d' ' ) ;
+
+echo "===============================";
+echo "please visit =>";
+echo "http://$IPADDRESS:8081/";
+echo "===============================";
