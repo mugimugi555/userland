@@ -2,9 +2,13 @@
 
 # sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx_php81.sh && bash install_nginx_php81.sh ;
 
-sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx.sh && bash install_nginx.sh ;
+if ! [ -x "$(command -v wget)" ]; then
+  sudo apt update ;
+  sudo apt install -y wget ; 
+fi
 
-sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_php81.sh && bash install_php81.sh ;
+wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx.sh && bash install_nginx.sh ;
+wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_php81.sh && bash install_php81.sh ;
 
 sudo apt install -y libc6-dev ;
 
