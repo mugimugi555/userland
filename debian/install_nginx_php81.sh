@@ -275,6 +275,9 @@ echo "$PHP_SOCKET" > ~/.config/nginx/includes/php.conf ;
 ~/.config/php-fpm/start ;
 ~/.config/nginx/start ;
 
+echo "~/.config/php-fpm/start" | sudo tee -a /support/startVNCServerStep2.sh ;
+echo "~/.config/nginx/start" | sudo tee -a /support/startVNCServerStep2.sh ;
+
 echo "<php phpinfo(); " > ~/www/index.php ;
 IPADDRESS=$( hostname -I | cut -f1 -d' ' ) ;
 
