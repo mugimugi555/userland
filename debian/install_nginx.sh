@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# 
+# wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx.sh && bash install_nginx.sh ;
 
 wget http://nginx.org/keys/nginx_signing.key ;
 sudo apt-key add nginx_signing.key ;
