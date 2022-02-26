@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-#
+# sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx_php81.sh && bash install_nginx_php81.sh ;
 
 sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx.sh && bash install_nginx.sh ;
 
