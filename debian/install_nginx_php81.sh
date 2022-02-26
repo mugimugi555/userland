@@ -8,27 +8,27 @@ sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.
 
 exit;
 
+echo $USER ;
+
+mkdir ~/web ;
+
 mkdir ~/.config/nginx ;
 mkdir ~/.config/nginx/includes ;
 mkdir ~/.config/nginx/tmp ;
-
 touch ~/.config/nginx/nginx.conf ;
 touch ~/.config/nginx/error.log ;
-nano ~/.config/nginx/nginx.conf ;
 
-error_log /home/user/.config/nginx/error.log info;
-pid /dev/null;
-events { worker_connections 128; }
+NGINX_CONF=$(cat<<TEXT
 http {
         include mimes.conf; #for custom file types
         default_type application/octet-stream;
-        access_log /home/user/.config/nginx/access.log combined;
+        access_log /home/$USER/.config/nginx/access.log combined;
 
-        client_body_temp_path /home/user/.config/nginx/tmp/client_body;
-        proxy_temp_path /home/user/.config/nginx/tmp/proxy;
-        fastcgi_temp_path /home/user/.config/nginx/tmp/fastcgi;
-        uwsgi_temp_path /home/user/.config/nginx/tmp/uwsgi;
-        scgi_temp_path /home/user/.config/nginx/tmp/scgi;
+        client_body_temp_path /home/$USER/.config/nginx/tmp/client_body;
+        proxy_temp_path /home/$USER/.config/nginx/tmp/proxy;
+        fastcgi_temp_path /home/$USER/.config/nginx/tmp/fastcgi;
+        uwsgi_temp_path /home/$USER/.config/nginx/tmp/uwsgi;
+        scgi_temp_path /home/$USER/.config/nginx/tmp/scgi;
 
         server_tokens off;
         sendfile on;
@@ -40,26 +40,28 @@ http {
         postpone_output  1460;
 
         server {
-                listen 15954 default; #IPv4
-                listen [::]:15954 default; #IPv6
+                listen 8081 default; #IPv4
+                listen [::]:8081 default; #IPv6
                 autoindex on; #this is the file list
                 index index.php index.html;
                 
                 # path you want to share
-                root /home/user/files/;
+                root /home/$USER/www/;
                 
                 # file with user:pass info
-                auth_basic_user_file /home/user/.config/nginx/htpasswd.conf;
-                auth_basic "Personal file server";
+                #auth_basic_user_file /home/$USER/.config/nginx/htpasswd.conf;
+                #auth_basic "Personal file server";
                 
                 # Any extra configuration
-                include /home/user/.config/nginx/includes/*.conf;
+                include /home/$USER/.config/nginx/includes/*.conf;
         }
 }
-
+TEXT
+)
+echo $NGINX_CONF > ~/.config/nginx/nginx.conf ;
 
 touch ~/.config/nginx/mimes.conf ;
-nano ~/.config/nginx/mimes.conf ;
+NGINX_MIMES=$(cat<<TEXT
 types {
     text/html                             html htm shtml;
     text/css                              css;
@@ -137,52 +139,58 @@ types {
         
     application/x-bittorrent              torrent;
 }
-
+TEXT
+)
+echo $NGINX_MIMES > ~/.config/nginx/mimes.conf ;
 
 # touch ~/.config/nginx/htpasswd.conf ;
-#  echo 'username:'$(crypt password) >> ~/.config/nginx/htpasswd.conf ;
+# echo 'username:'$(crypt password) >> ~/.config/nginx/htpasswd.conf ;
 
 touch ~/.config/nginx/start ;
 chmod +x ~/.config/nginx/start ;
-nano ~/.config/nginx/start ;
-
+NGINX_START=$(cat<<TEXT
 #!/bin/bash
 # start
 /usr/sbin/nginx -c ~/.config/nginx/nginx.conf &> /dev/null ;
+TEXT
+)
+echo $NGINX_START > ~/.config/nginx/start ;
 
-crontab -e ;
-
-@reboot ~/.config/nginx/start
-
-nano ~/.config/nginx/stop ;
+touch ~/.config/nginx/stop ;
+NGINX_STOP=$(cat<<TEXT
 #!/bin/bash
 # stop
 pkill -f nginx/nginx.conf
+TEXT
+)
+echo $NGINX_STOP > ~/.config/nginx/stop ;
+
+crontab -e ;
+@reboot ~/.config/nginx/start
 
 # openssl req -new -x509 -nodes -out 
 # ~/.config/nginx/server.crt -keyout ~/.config/nginx/server.key
 
-nano nginx.conf ;
+#nano nginx.conf ;
+#
+#        listen 15954 ssl; # Replace existing line
+#        listen [::]:15954 ssl; # Replace existing line
+#        # ssl on;
+#        ssl_certificate /home/$USER/.config/nginx/server.crt;
+#        ssl_certificate_key /home/$USER/.config/nginx/server.key; 
 
-        listen 15954 ssl; # Replace existing line
-        listen [::]:15954 ssl; # Replace existing line
-        # ssl on;
-        ssl_certificate /home/user/.config/nginx/server.crt;
-        ssl_certificate_key /home/user/.config/nginx/server.key; 
-
-
-mkdir ~/.config/php-fpm2
-touch ~/.config/php-fpm2/conf
-
+mkdir ~/.config/php-fpm ;
+touch ~/.config/php-fpm/conf ;
+PHP_CONF=$(cat<<TEXT
 [global]
 daemonize = yes
-error_log = /home/user/.config/php-fpm2/error.log
+error_log = /home/$USER/.config/php-fpm/error.log
 
 [www]
-listen = /home/user/.config/php-fpm2/socket
+listen = /home/$USER/.config/php-fpm/socket
 
-listen.owner = user
-listen.group = user
+listen.owner = $USER
+listen.group = $USER
 listen.mode = 0600
 
 pm = dynamic
@@ -190,13 +198,15 @@ pm.max_children = 20
 pm.start_servers = 1
 pm.min_spare_servers = 1
 pm.max_spare_servers = 5
-
+TEXT
+)
+echo $PHP_CONF > ~/.config/php-fpm/conf ;
 
 # start
-php-fpm --fpm-config ~/.config/php-fpm2/conf
+php-fpm --fpm-config ~/.config/php-fpm/conf ;
 
-touch ~/.config/nginx/fastcgi_params
-
+touch ~/.config/nginx/fastcgi_params ;
+PHP_CONF=$(cat<<TEXT
 fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
 
 fastcgi_param  QUERY_STRING       $query_string;
@@ -227,13 +237,19 @@ fastcgi_buffers 8 256k;
 fastcgi_busy_buffers_size 256k;
 fastcgi_temp_file_write_size 256k;
 fastcgi_intercept_errors on;
+TEXT
+)
+echo $PHP_CONF > ~/.config/nginx/fastcgi_params ;
 
-
-touch ~/.config/nginx/includes/php.conf
-
+touch ~/.config/nginx/includes/php.conf ;
+PHP_SOCKET=$(cat<<TEXT
 location ~ \.php$ {
     include fastcgi_params;
-    fastcgi_pass unix:/home/user/.config/php-fpm2/socket;
+    fastcgi_pass unix:/home/$USER/.config/php-fpm/socket;
 }
+TEXT
+)
+echo $PHP_SOCKET > ~/.config/nginx/includes/php.conf ;
 
-pkill -f nginx/nginx.conf && ~/.config/nginx/start ;
+~/.config/nginx/stop ;
+~/.config/nginx/start ;
