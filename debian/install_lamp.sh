@@ -1,21 +1,37 @@
-#!/usr/bin/bash
+#!/bin/bash
 
-# wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_lamp.sh && bash install_lamp.sh ;
+# ======================================================================================================================
+# one liner command
+# ======================================================================================================================
+# sudo apt update -y ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_lamp.sh && bash install_lamp.sh ;
 
+# ======================================================================================================================
+# install lamp
+# ======================================================================================================================
 sudo apt install -y apache2 php php-mysql mariadb-server ;
 
+# ======================================================================================================================
+# config
+# ======================================================================================================================
 sudo sed -i '/Listen/{s/\([0-9]\+\)/8080/; :a;n; ba}' /etc/apache2/ports.conf
 
-#
-sudo echo "export LD_LIBRARY_PATH=\"\"" >> /support/startVNCServerStep2.sh ;
-sudo echo "/usr/sbin/apachectl start"   >> /support/startVNCServerStep2.sh ;
-sudo echo "sudo service mysql start"    >> /support/startVNCServerStep2.sh ;
+# ======================================================================================================================
+# auto start
+# ======================================================================================================================
+echo "export LD_LIBRARY_PATH=\"\"" | sudo tee -a /support/startVNCServerStep2.sh ;
+echo "/usr/sbin/apachectl start"   | sudo tee -a /support/startVNCServerStep2.sh ;
+echo "sudo service mysql start"    | sudo tee -a /support/startVNCServerStep2.sh ;
 
-#
+# ======================================================================================================================
+# start
+# ======================================================================================================================
 sudo service mysql start ;
 /usr/sbin/apachectl start ;
 
-#
+# ======================================================================================================================
+# finish
+# ======================================================================================================================
 LOCAL_IPADDRESS=`hostname -I | awk -F" " '{print $1}'` ;
-echo $LOCAL_IPADDRESS ;
+echo "========================================";
 echo "visit => http://$LOCAL_IPADDRESS:8080/" ;
+echo "========================================";
