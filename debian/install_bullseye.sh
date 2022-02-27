@@ -24,7 +24,7 @@ deb http://security.debian.org/ bullseye-security main
 deb-src http://security.debian.org/ bullseye-security main
 TEXT
 )
-sudo echo "$NEWSOURCELIST" | sudo tee /etc/apt/sources.list ;
+echo "$NEWSOURCELIST" | sudo tee /etc/apt/sources.list ;
 
 # ======================================================================================================================
 # update
