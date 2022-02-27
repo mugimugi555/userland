@@ -1,70 +1,85 @@
-#!/usr/bin/bash
+#!/bin/bash
 
-# sudo apt update ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx_php81.sh && bash install_nginx_php81.sh ;
+# ======================================================================================================================
+# one liner command
+# ======================================================================================================================
+# sudo apt update -y ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx_php81.sh && bash install_nginx_php81.sh ;
 
+# ======================================================================================================================
+# install php8.1 nginx
+# ======================================================================================================================
 if ! [ -x "$(command -v wget)" ]; then
   sudo apt update ;
   sudo apt install -y wget ; 
 fi
-
 wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_nginx.sh && bash install_nginx.sh ;
 wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_php81.sh && bash install_php81.sh ;
-
 sudo apt install -y libc6-dev ;
 
+# ======================================================================================================================
+# create www dir on home dir
+# ======================================================================================================================
 mkdir ~/www ;
+echo "<php phpinfo(); " > ~/www/index.php ;
 
+# ======================================================================================================================
+# setting nginx
+# ======================================================================================================================
+
+# create nginx dirs
 mkdir ~/.config/nginx ;
 mkdir ~/.config/nginx/includes ;
 mkdir ~/.config/nginx/tmp ;
 touch ~/.config/nginx/nginx.conf ;
 touch ~/.config/nginx/error.log ;
 
+# nginx conf
 NGINX_CONF=$(cat<<TEXT
 error_log /home/$USER/.config/nginx/error.log info;
 pid /dev/null;
 events { worker_connections 128; }
 http {
-        include mimes.conf; #for custom file types
-        default_type application/octet-stream;
-        access_log /home/$USER/.config/nginx/access.log combined;
+  include mimes.conf; #for custom file types
+  default_type application/octet-stream;
+  access_log /home/$USER/.config/nginx/access.log combined;
 
-        client_body_temp_path /home/$USER/.config/nginx/tmp/client_body;
-        proxy_temp_path /home/$USER/.config/nginx/tmp/proxy;
-        fastcgi_temp_path /home/$USER/.config/nginx/tmp/fastcgi;
-        uwsgi_temp_path /home/$USER/.config/nginx/tmp/uwsgi;
-        scgi_temp_path /home/$USER/.config/nginx/tmp/scgi;
+  client_body_temp_path /home/$USER/.config/nginx/tmp/client_body;
+  proxy_temp_path /home/$USER/.config/nginx/tmp/proxy;
+  fastcgi_temp_path /home/$USER/.config/nginx/tmp/fastcgi;
+  uwsgi_temp_path /home/$USER/.config/nginx/tmp/uwsgi;
+  scgi_temp_path /home/$USER/.config/nginx/tmp/scgi;
 
-        server_tokens off;
-        sendfile on;
-        tcp_nopush on;
-        tcp_nodelay on;
-        keepalive_timeout 4;
+  server_tokens off;
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay on;
+  keepalive_timeout 4;
 
-        output_buffers   1 32k;
-        postpone_output  1460;
+  output_buffers   1 32k;
+  postpone_output  1460;
 
-        server {
-                listen 8081 default; #IPv4
-                listen [::]:8081 default; #IPv6
-                autoindex on; #this is the file list
-                index index.php index.html;
-                
-                # path you want to share
-                root /home/$USER/www/;
-                
-                # file with user:pass info
-                #auth_basic_user_file /home/$USER/.config/nginx/htpasswd.conf;
-                #auth_basic "Personal file server";
-                
-                # Any extra configuration
-                include /home/$USER/.config/nginx/includes/*.conf;
-        }
+  server {
+    listen 8081 default; #IPv4
+    listen [::]:8081 default; #IPv6
+    autoindex on; #this is the file list
+    index index.php index.html;
+
+    # path you want to share
+    root /home/$USER/www/;
+
+    # file with user:pass info
+    #auth_basic_user_file /home/$USER/.config/nginx/htpasswd.conf;
+    #auth_basic "Personal file server";
+
+    # Any extra configuration
+    include /home/$USER/.config/nginx/includes/*.conf;
+  }
 }
 TEXT
 )
 echo "$NGINX_CONF" > ~/.config/nginx/nginx.conf ;
 
+# setting mimes
 touch ~/.config/nginx/mimes.conf ;
 NGINX_MIMES=$(cat<<TEXT
 types {
@@ -148,9 +163,15 @@ TEXT
 )
 echo "$NGINX_MIMES" > ~/.config/nginx/mimes.conf ;
 
+# setting basic password
 # touch ~/.config/nginx/htpasswd.conf ;
 # echo 'username:'$(crypt password) >> ~/.config/nginx/htpasswd.conf ;
 
+# ======================================================================================================================
+# create start stop file
+# ======================================================================================================================
+
+# nginx start file
 touch ~/.config/nginx/start ;
 chmod +x ~/.config/nginx/start ;
 NGINX_START=$(cat<<TEXT
@@ -162,6 +183,7 @@ TEXT
 )
 echo "$NGINX_START" > ~/.config/nginx/start ;
 
+# nginx stop file
 touch ~/.config/nginx/stop ;
 chmod +x ~/.config/nginx/stop ;
 NGINX_STOP=$(cat<<TEXT
@@ -173,19 +195,26 @@ TEXT
 echo "$NGINX_STOP" > ~/.config/nginx/stop ;
 
 # echo "@reboot ~/.config/nginx/start" | crontab -
-#
-# openssl req -new -x509 -nodes -out 
+
+# ======================================================================================================================
+# ssl
+# ======================================================================================================================
+# openssl req -new -x509 -nodes -out
 # ~/.config/nginx/server.crt -keyout ~/.config/nginx/server.key
 #
 #nano nginx.conf ;
-#
-#        listen 8088 ssl; # Replace existing line
-#        listen [::]:8088 ssl; # Replace existing line
-#        # ssl on;
-#        ssl_certificate /home/$USER/.config/nginx/server.crt;
-#        ssl_certificate_key /home/$USER/.config/nginx/server.key; 
+#  listen 8088 ssl; # Replace existing line
+#  listen [::]:8088 ssl; # Replace existing line
+#  # ssl on;
+#  ssl_certificate /home/$USER/.config/nginx/server.crt;
+#  ssl_certificate_key /home/$USER/.config/nginx/server.key;
 
+# ======================================================================================================================
+# create php-fpm dir
+# ======================================================================================================================
 mkdir ~/.config/php-fpm ;
+
+# create conf file
 touch ~/.config/php-fpm/conf ;
 PHP_CONF=$(cat<<TEXT
 [global]
@@ -208,26 +237,7 @@ TEXT
 )
 echo "$PHP_CONF" > ~/.config/php-fpm/conf ;
 
-touch ~/.config/php-fpm/start ;
-chmod +x ~/.config/php-fpm/start ;
-PHP_START=$(cat<<TEXT
-#!/bin/bash
-# start
-php-fpm8.1 --fpm-config ~/.config/php-fpm/conf ;
-TEXT
-)
-echo "$PHP_START" > ~/.config/php-fpm/start ;
-
-touch ~/.config/php-fpm/stop ;
-chmod +x ~/.config/php-fpm/stop ;
-PHP_STOP=$(cat<<TEXT
-#!/bin/bash
-# stop
-pkill php-fpm
-TEXT
-)
-echo "$PHP_STOP" > ~/.config/php-fpm/stop ;
-
+# fastcgi params
 touch ~/.config/nginx/fastcgi_params ;
 PHP_CONF=$(cat<<TEXT
 fastcgi_param  SCRIPT_FILENAME    \$document_root\$fastcgi_script_name;
@@ -264,6 +274,7 @@ TEXT
 )
 echo "$PHP_CONF" > ~/.config/nginx/fastcgi_params ;
 
+# nginx php conf
 touch ~/.config/nginx/includes/php.conf ;
 PHP_SOCKET=$(cat<<TEXT
 location ~ \.php\$ {
@@ -274,18 +285,50 @@ TEXT
 )
 echo "$PHP_SOCKET" > ~/.config/nginx/includes/php.conf ;
 
-~/.config/php-fpm/stop ;
-~/.config/nginx/stop ;
+# ======================================================================================================================
+# create start stop file
+# ======================================================================================================================
+# php-fpm start
+touch ~/.config/php-fpm/start ;
+chmod +x ~/.config/php-fpm/start ;
+PHP_START=$(cat<<TEXT
+#!/bin/bash
+# start
+php-fpm8.1 --fpm-config ~/.config/php-fpm/conf ;
+TEXT
+)
+echo "$PHP_START" > ~/.config/php-fpm/start ;
+
+# php-fpm stop
+touch ~/.config/php-fpm/stop ;
+chmod +x ~/.config/php-fpm/stop ;
+PHP_STOP=$(cat<<TEXT
+#!/bin/bash
+# stop
+pkill php-fpm
+TEXT
+)
+echo "$PHP_STOP" > ~/.config/php-fpm/stop ;
+
+# ======================================================================================================================
+# stop and start
+# ======================================================================================================================
+~/.config/php-fpm/stop  ;
+~/.config/nginx/stop    ;
 ~/.config/php-fpm/start ;
-~/.config/nginx/start ;
+~/.config/nginx/start   ;
 
+# ======================================================================================================================
+# auto start
+# ======================================================================================================================
 echo "~/.config/php-fpm/start" | sudo tee -a /support/startVNCServerStep2.sh ;
-echo "~/.config/nginx/start" | sudo tee -a /support/startVNCServerStep2.sh ;
+echo "~/.config/nginx/start"   | sudo tee -a /support/startVNCServerStep2.sh ;
 
-echo "<php phpinfo(); " > ~/www/index.php ;
+# ======================================================================================================================
+# finish
+# ======================================================================================================================
 IPADDRESS=$( hostname -I | cut -f1 -d' ' ) ;
-
 echo "===============================";
-echo "please visit =>";
+echo "Please visit =>";
 echo "http://$IPADDRESS:8081/";
 echo "===============================";
