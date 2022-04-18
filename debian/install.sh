@@ -6,6 +6,11 @@
 ln -s /host-rootfs/sdcard ~/ ;
 
 # ======================================================================================================================
+# auto start ssh server port 2022 in vnc mode
+# ======================================================================================================================
+echo "sudo bash /support/startSSHServer.sh" | sudo tee -a /support/startVNCServer.sh ;
+
+# ======================================================================================================================
 # one liner command
 # ======================================================================================================================
 # sudo apt update -y ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install.sh && bash install.sh ;
