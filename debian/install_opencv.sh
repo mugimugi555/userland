@@ -47,7 +47,7 @@ cmake                                \
   -D OPENCV_GENERATE_PKGCONFIG=ON    \
   -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
   -D BUILD_EXAMPLES=ON .. ;
-make -j2 ;
+make -j$(nproc) ;
 pkg-config --modversion opencv4 ;
 
 # ======================================================================================================================
