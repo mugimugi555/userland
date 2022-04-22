@@ -39,7 +39,7 @@ sudo apt install -y wget git curl htop net-tools emacs-nox lame unar axel vlc ge
 # ======================================================================================================================
 # chrome
 # ======================================================================================================================
-sudo apt install -y chromium ;
+sudo apt install -y chromium chromium-l10n ;
 echo "alias chrome='chromium --no-sandbox'" >> ~/.profile ;
 source ~/.profile ;
 
