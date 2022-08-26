@@ -17,4 +17,4 @@ echo "deb https://packages.sury.org/php/ $VERSION_CODENAME main" | sudo tee /etc
 # install php
 # ======================================================================================================================
 sudo apt update ;
-sudo apt install -y php8.1 php8.1-fpm ;
+sudo apt install -y php php-cli php-fpm ;
