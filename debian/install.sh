@@ -59,7 +59,7 @@ sudo apt install -y libcanberra-gtk* ;
 # youtube
 # ======================================================================================================================
 sudo apt install -y python3-pip ;
-sudo -H pip install --upgrade youtube-dl ;
+sudo -H pip3 install --upgrade youtube-dl ;
 
 # ======================================================================================================================
 # local
