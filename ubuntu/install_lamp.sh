@@ -48,6 +48,7 @@ sudo service apache2 start
 
 # Apache の状態確認
 sudo service apache2 status | grep "Active:"
+curl -I http://localhost:8080
 
 echo "ポート変更完了！Apache は 8080 で動作しています。"
 
