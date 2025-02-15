@@ -23,7 +23,20 @@ php -v ;
 # ======================================================================================================================
 # set port number
 # ======================================================================================================================
-sudo sed -i '/Listen/{s/\([0-9]\+\)/8080/; :a;n; ba}' /etc/apache2/ports.conf
+# Apache の設定ファイル
+PORTS_CONF="/etc/apache2/ports.conf"
+VHOST_CONF="/etc/apache2/sites-available/000-default.conf"
+
+echo "Apache のポートを 80 から 8080 に変更中..."
+
+# ポート変更 (80 → 8080)
+sudo sed -i 's/Listen 80/Listen 8080/g' "$PORTS_CONF"
+sudo sed -i 's/<VirtualHost \*:80>/<VirtualHost *:8080>/g' "$VHOST_CONF"
+
+# 変更後の設定を確認
+echo "変更後の設定:"
+grep "Listen" "$PORTS_CONF"
+grep "<VirtualHost" "$VHOST_CONF"
 
 # ======================================================================================================================
 # start auto
