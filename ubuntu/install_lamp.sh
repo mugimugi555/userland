@@ -38,6 +38,18 @@ echo "変更後の設定:"
 grep "Listen" "$PORTS_CONF"
 grep "<VirtualHost" "$VHOST_CONF"
 
+# 設定の構文チェック
+sudo apachectl configtest
+
+# Apache を再起動
+echo "Apache を再起動します..."
+sudo service apache2 restart
+
+# Apache の状態確認
+sudo service apache2 status | grep "Active:"
+
+echo "ポート変更完了！Apache は 8080 で動作しています。"
+
 # ======================================================================================================================
 # start auto
 # ======================================================================================================================
