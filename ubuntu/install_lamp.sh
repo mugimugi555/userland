@@ -14,8 +14,7 @@ sudo add-apt-repository -y ppa:ondrej/php ;
 # ======================================================================================================================
 # install php mysql apache
 # ======================================================================================================================
-sudo apt install -y apache2 libapache2-mod-php8.1 php8.1 mariadb-server ;
-sudo apt install -y php8.1-{mysql,imap,ldap,xml,curl,mbstring,zip} ;
+sudo apt install -y apache2 mariadb-server php php-{mysql,gd,imap,ldap,xml,curl,mbstring,zip};
 php -v ;
 #sudo a2dismod php7.4 ;
 #sudo a2enmod php8.1 ;
