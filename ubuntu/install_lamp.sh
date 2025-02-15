@@ -43,7 +43,8 @@ sudo apachectl configtest
 
 # Apache を再起動
 echo "Apache を再起動します..."
-sudo service apache2 restart
+sudo service apache2 stop
+sudo service apache2 start
 
 # Apache の状態確認
 sudo service apache2 status | grep "Active:"
@@ -51,17 +52,17 @@ sudo service apache2 status | grep "Active:"
 echo "ポート変更完了！Apache は 8080 で動作しています。"
 
 # ======================================================================================================================
-# start auto
+# start manually
+# ======================================================================================================================
+sudo service mysql start ;
+sudo service apache2 start
+
+# ======================================================================================================================
+# add auto start
 # ======================================================================================================================
 echo "export LD_LIBRARY_PATH=\"\"" | sudo tee -a /support/startVNCServerStep2.sh ;
 echo "/usr/sbin/apachectl start"   | sudo tee -a /support/startVNCServerStep2.sh ;
 echo "sudo service mysql start"    | sudo tee -a /support/startVNCServerStep2.sh ;
-
-# ======================================================================================================================
-# start manually
-# ======================================================================================================================
-sudo service mysql start ;
-/usr/sbin/apachectl start ;
 
 # ======================================================================================================================
 # finish
