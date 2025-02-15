@@ -30,6 +30,8 @@ echo "Apache のポートを 80 から 8080 に変更中..."
 # ポート変更 (80 → 8080)
 sed -i '/Listen/{s/\([0-9]\+\)/8080/; :a;n; ba}' "$PORTS_CONF"
 sed -i 's/<VirtualHost \*:80>/<VirtualHost *:8080>/g' "$VHOST_CONF"
+#sudo sh -c "sed -i '/Listen/{s/\([0-9]\+\)/8080/; :a; n; ba}' \"$PORTS_CONF\""
+#sed '/Listen/{s/\([0-9]\+\)/8080/; :a; n; ba}' "$PORTS_CONF" | sudo tee "$PORTS_CONF" > /dev/null
 
 # 変更後の設定を確認
 echo "変更後の設定:"
