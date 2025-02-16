@@ -1,18 +1,17 @@
 #!/bin/bash
 
-# ======================================================================================================================
-# one liner command
-# ======================================================================================================================
-# sudo apt update -y ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_opencv.sh && bash install_opencv.sh ;
+echo "========================================="
+echo "UserLAnd 用 OpenCV 最新版インストールスクリプト"
+echo "========================================="
 
 # ======================================================================================================================
-# update
+# システムアップデート
 # ======================================================================================================================
 sudo apt update ;
 sudo apt upgrade -y ;
 
 # ======================================================================================================================
-# install libraries
+# 必要なライブラリのインストール
 # ======================================================================================================================
 sudo apt install -y                                              \
   build-essential cmake git pkg-config libgtk-3-dev              \
@@ -22,23 +21,27 @@ sudo apt install -y                                              \
   libtbb2 libtbb-dev libdc1394-22-dev ;
 
 # ======================================================================================================================
-# get opencv and build
+# OpenCV ソースコードの取得
 # ======================================================================================================================
-
-# get opencv files
 cd ;
-mkdir ~/opencv_build ;
+mkdir -p ~/opencv_build ;
 cd ~/opencv_build ;
-git clone https://github.com/opencv/opencv.git ;
-git clone https://github.com/opencv/opencv_contrib.git ;
-cd opencv ;
-mkdir build ;
+
+# 既存の OpenCV フォルダがあれば削除
+rm -rf opencv opencv_contrib ;
+
+# OpenCV リポジトリを取得
+git clone --depth=1 https://github.com/opencv/opencv.git ;
+git clone --depth=1 https://github.com/opencv/opencv_contrib.git ;
+
+# ======================================================================================================================
+# OpenCV のビルド & インストール
+# ======================================================================================================================
+cd ~/opencv_build/opencv ;
+mkdir -p build ;
 cd build ;
 
-# build
-export LD_LIBRARY_PATH="" ;
-# echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local-lib.conf ;
-# ldconfig -v ;
+# CMake の設定
 cmake                                \
   -D CMAKE_BUILD_TYPE=RELEASE        \
   -D CMAKE_INSTALL_PREFIX=/usr/local \
@@ -47,16 +50,32 @@ cmake                                \
   -D OPENCV_GENERATE_PKGCONFIG=ON    \
   -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
   -D BUILD_EXAMPLES=ON .. ;
+
+# コンパイル
 make -j$(nproc) ;
+
+# インストール
+sudo make install ;
+
+# ライブラリパスの設定
+echo "/usr/local/lib" | sudo tee /etc/ld.so.conf.d/opencv.conf ;
+sudo ldconfig ;
+
+# OpenCV のバージョン確認
 pkg-config --modversion opencv4 ;
 
 # ======================================================================================================================
-# setting
+# Python 環境の設定
 # ======================================================================================================================
-echo export PYTHONPATH="/usr/local/lib/python3.7/site-packages:$PYTHONPATH" >> ~/.bash_profile ;
+PYTHON_VERSION=$(python3 -c "import sys; print(f'python{sys.version_info.major}.{sys.version_info.minor}')")
+echo "export PYTHONPATH=\"/usr/local/lib/${PYTHON_VERSION}/site-packages:\$PYTHONPATH\"" >> ~/.bash_profile ;
 source ~/.bash_profile ;
 
 # ======================================================================================================================
-# finish
+# インストール完了 & 動作確認
 # ======================================================================================================================
-python3 -c "import cv2; print(cv2.__version__)" ;
+python3 -c "import cv2; print('✅ OpenCV version:', cv2.__version__)" ;
+
+echo "========================================="
+echo "🎉 OpenCV の最新版のインストールが完了しました！"
+echo "========================================="
