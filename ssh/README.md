@@ -1,5 +1,7 @@
 # UserLAnd で SSH を設定する手順
 
+![タイトル画像](readme/header.png)
+
 このリポジトリには **UserLAnd 環境で SSH 接続を有効化するためのシェルスクリプト** が含まれています。  
 以下の手順で **SSH キーの作成、アップロード、設定、IP 確認、ログインテスト** を行うことで、Android 上の UserLAnd に SSH 接続が可能になります。
 
@@ -82,3 +84,4 @@ ssh -i ~/.ssh/android_id_rsa userland@<取得したIPアドレス>
 
 ✅ **これで UserLAnd に SSH 接続できる環境が完成します！ 🚀**
 
+![タイトル画像](readme/footer.png)
