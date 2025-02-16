@@ -1,5 +1,7 @@
 # UserLAnd 環境向けインストールスクリプト集
 
+![タイトル画像](readme/header.png)
+
 このリポジトリには、**UserLAnd 環境で CUI / GUI のセットアップ、日本語環境の設定、XFCE4 デスクトップ環境のインストールを行うためのスクリプト** が含まれています。
 
 ---
@@ -64,3 +66,4 @@ bash install_xfce4.sh
 
 🚀 **これらのスクリプトを実行すれば、UserLAnd で快適な環境を構築できます！**
 
+![タイトル画像](readme/footer.png)
