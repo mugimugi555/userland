@@ -57,6 +57,13 @@ sudo service apache2 status
 sudo service mysql status
 
 # ======================================================================
+# auto start
+# ======================================================================
+#echo "export LD_LIBRARY_PATH=\"\"" | sudo tee -a /support/startVNCServerStep2.sh ;
+#echo "/usr/sbin/apachectl start"   | sudo tee -a /support/startVNCServerStep2.sh ;
+#echo "sudo service mysql start"    | sudo tee -a /support/startVNCServerStep2.sh ;
+
+# ======================================================================
 # 設定の確認 & 完了メッセージ
 # ======================================================================
 LOCAL_IPADDRESS=$(hostname -I | awk '{print $1}')
