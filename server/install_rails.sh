@@ -1,66 +1,88 @@
 #!/bin/bash
 
-# ======================================================================================================================
-# one liner command
-# ======================================================================================================================
-# sudo apt update -y ; sudo apt install -y wget ; wget https://raw.githubusercontent.com/mugimugi555/userland/main/debian/install_rails.sh && install_rails.sh ;
+echo "=========================================="
+echo "🚀 最新版 Ruby on Rails インストールスクリプト"
+echo "=========================================="
 
-# ======================================================================================================================
-# install rbenv
-# ======================================================================================================================
-cd ;
-sudo apt update ;
-sudo apt install -y git-all ;
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv ;
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile ;
-~/.rbenv/bin/rbenv init ;
-echo 'eval "$(rbenv init - bash)"' >> ~/.bash_profile ;
-source .bash_profile ;
-mkdir -p "$(rbenv root)"/plugins ;
-git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build ;
-sudo apt install -y                         \
-	autoconf bison build-essential libssl-dev \
-	libyaml-dev libreadline6-dev zlib1g-dev   \
-	libncurses5-dev libffi-dev libgdbm6 libgdbm-dev ;
-#rbenv install 3.1.0 ;
-#rbenv install 3.0.3 ;
-rbenv install 2.7.5 ;
-rbenv versions ;
-rbenv global 2.7.5 ;
-ruby -v ;
+# ======================================================================
+# システムの準備
+# ======================================================================
+cd
+echo "📌 システムをアップデート中..."
+sudo apt update -y
+sudo apt install -y git curl wget
 
-# ======================================================================================================================
-# install nodejs latest
-# ======================================================================================================================
-cd ;
-wget https://raw.githubusercontent.com/mugimugi555/ubuntu/main/install_nodejs.sh && bash install_nodejs.sh ;
+# ======================================================================
+# rbenv & ruby-build のインストール
+# ======================================================================
+echo "📌 rbenv をインストール中..."
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init - bash)"' >> ~/.bash_profile
+source ~/.bash_profile
 
-# ======================================================================================================================
-# install misc
-# ======================================================================================================================
-sudo apt install -y yarn ;
-sudo apt install -y sqlite3 libsqlite3-dev ;
+echo "📌 ruby-build をインストール中..."
+mkdir -p "$(rbenv root)"/plugins
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
-# ======================================================================================================================
-# install rails
-# ======================================================================================================================
-gem search -ea rails ;
-gem install rails -v 5.2.6 ;
-rails -v ;
-gem list rails ;
+echo "📌 Ruby の依存パッケージをインストール..."
+sudo apt install -y \
+    autoconf bison build-essential libssl-dev \
+    libyaml-dev libreadline6-dev zlib1g-dev   \
+    libncurses5-dev libffi-dev libgdbm6 libgdbm-dev
 
-# ======================================================================================================================
-# create rails project
-# ======================================================================================================================
-rails _5.2.6_ new blog ;
-cd blog ;
+# ======================================================================
+# 最新の Ruby をインストール
+# ======================================================================
+echo "📌 利用可能な最新の Ruby バージョンを取得..."
+LATEST_RUBY_VERSION=$(rbenv install -l | grep -v - | tail -n 1)
+echo "📌 最新の Ruby バージョン: $LATEST_RUBY_VERSION"
 
-# ======================================================================================================================
-# finish
-# ======================================================================================================================
-LOCAL_IPADDRESS=`hostname -I | awk -F" " '{print $1}'` ;
-echo "=======================================";
-echo "visit => http://$LOCAL_IPADDRESS:8081/" ;
-echo "=======================================";
+echo "📌 Ruby をインストール中..."
+rbenv install "$LATEST_RUBY_VERSION"
+rbenv global "$LATEST_RUBY_VERSION"
+ruby -v
 
-bin/rails server -b $LOCAL_IPADDRESS -p 8081 ;
+# ======================================================================
+# 最新の Node.js をインストール
+# ======================================================================
+echo "📌 最新版 Node.js をインストール..."
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install -y nodejs
+node -v
+
+# ======================================================================
+# Yarn & SQLite をインストール
+# ======================================================================
+echo "📌 Yarn & SQLite をインストール..."
+sudo apt install -y yarn sqlite3 libsqlite3-dev
+
+# ======================================================================
+# 最新版の Rails をインストール
+# ======================================================================
+echo "📌 最新の Rails を取得..."
+LATEST_RAILS_VERSION=$(gem search -ea rails | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -n 1)
+echo "📌 最新の Rails バージョン: $LATEST_RAILS_VERSION"
+
+echo "📌 Rails をインストール中..."
+gem install rails -v "$LATEST_RAILS_VERSION"
+rbenv rehash  # rbenv のリフレッシュ
+rails -v
+
+# ======================================================================
+# Rails プロジェクトの作成
+# ======================================================================
+echo "📌 Rails プロジェクトを作成中..."
+rails new blog
+cd blog
+
+# ======================================================================
+# Rails サーバーを起動
+# ======================================================================
+LOCAL_IPADDRESS=$(hostname -I | awk '{print $1}')
+echo "======================================="
+echo "✅ Rails サーバーを起動します..."
+echo "💡 アクセス: http://$LOCAL_IPADDRESS:8081/"
+echo "======================================="
+
+bin/rails server -b "$LOCAL_IPADDRESS" -p 8081
