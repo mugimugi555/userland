@@ -13,9 +13,9 @@ cmd=$(cat <<EOF
 rm -rf ~/.ssh;
 mkdir -p ~/.ssh;
 chmod 700 ~/.ssh;
-cat /data/local/tmp/android_id_rsa.pub >> ~/.ssh/authorized_keys;
+cat /data/local/tmp/id_rsa_userland.pub >> ~/.ssh/authorized_keys;
 chmod 600 ~/.ssh/authorized_keys;
-rm /data/local/tmp/android_id_rsa.pub
+rm /data/local/tmp/id_rsa_userland.pub
 EOF
 )
 
