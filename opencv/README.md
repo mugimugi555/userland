@@ -10,10 +10,10 @@
 ## 📌 スクリプト一覧
 | ファイル名 | 説明 | GUI / CUI | インストール方法 |
 |------------|------|-----------|------------------|
-| `install_opencv_cui.sh` | **パッケージ版 OpenCV Headless（CUI）** | CUI | `pip install opencv-python-headless` |
-| `install_opencv_cui_latest.sh` | **最新の OpenCV Headless（ソースコンパイル）** | CUI | `git clone & build` |
-| `install_opencv_gui.sh` | **パッケージ版 OpenCV GUI** | GUI | `apt install python3-opencv` |
-| `install_opencv_gui_latest.sh` | **最新の OpenCV GUI（ソースコンパイル）** | GUI | `git clone & build` |
+| `install_opencv_cui.sh` | **パッケージ版 OpenCV Headless（CUI）** | CUI | `bash install_opencv_cui.sh` |
+| `install_opencv_cui_latest.sh` | **最新の OpenCV Headless（ソースコンパイル）** | CUI | `bash install_opencv_cui_latest.sh` |
+| `install_opencv_gui.sh` | **パッケージ版 OpenCV GUI** | GUI | `bash install_opencv_gui.sh` |
+| `install_opencv_gui_latest.sh` | **最新の OpenCV GUI（ソースコンパイル）** | GUI | `bash install_opencv_gui_latest.sh` |
 
 ---
 
