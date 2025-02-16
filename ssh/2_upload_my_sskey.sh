@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SSH_KEY="$HOME/.ssh/android_id_rsa.pub"
-TARGET_PATH="/data/local/tmp/android_id_rsa.pub"
+SSH_KEY="$HOME/.ssh/id_rsa_userland.pub"
+TARGET_PATH="/data/local/tmp/id_rsa_userland.pub"
 
 # SSH キーが存在するか確認
 if [ ! -f "$SSH_KEY" ]; then
