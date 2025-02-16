@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# ADB で接続中のデバイスを取得
-device=$(adb devices | awk 'NR==2 {print $1}')
+# ADB で接続中のすべてのデバイスを取得
+devices=$(adb devices | awk 'NR>1 && $1!="" {print $1}')
 
-if [ -z "$device" ]; then
+if [ -z "$devices" ]; then
     echo "エラー: 接続されている Android デバイスが見つかりません。"
     exit 1
 fi
@@ -44,29 +44,34 @@ cmd_list=(
     "mkdir -p ~/.ssh"
     "chmod 700 ~/.ssh"
     "touch ~/.ssh/authorized_keys"
+    "ls -al /data/local/tmp/id_rsa_userland.pub"
     "cat /data/local/tmp/id_rsa_userland.pub >> ~/.ssh/authorized_keys"
     "chmod 600 ~/.ssh/authorized_keys"
-    "rm /data/local/tmp/id_rsa_userland.pub"
+    # "rm /data/local/tmp/id_rsa_userland.pub" #permission denied
 )
 
-echo "デバイス ($device) にコマンドを送信します..."
+echo "接続されているデバイス: $devices"
 echo "=== デバッグ: 送信するコマンド一覧 ==="
 printf "%s\n" "${cmd_list[@]}"
 echo "==================================="
 
-# 各コマンドを 1 行ずつ送信
-for cmd in "${cmd_list[@]}"; do
-    echo "デバッグ: 現在のコマンド -> [$cmd]"
+# すべての端末に対してコマンドを送信
+for device in $devices; do
+    echo "デバイス ($device) にコマンドを送信中..."
 
-    cmd_escaped=$(adb_escape_text "$cmd")
-    echo "エスケープ前: $cmd"
-    echo "エスケープ後: $cmd_escaped"
+    for cmd in "${cmd_list[@]}"; do
+        echo "デバッグ: [$device] 実行コマンド -> [$cmd]"
 
-    echo "送信中: $cmd_escaped"
+        cmd_escaped=$(adb_escape_text "$cmd")
+        echo "エスケープ前: $cmd"
+        echo "エスケープ後: $cmd_escaped"
 
-    adb -s "$device" shell input text "$cmd_escaped"
-    adb -s "$device" shell input keyevent 66  # Enterキーを送信
-    sleep 0.5  # コマンド処理のための短い待機
+        echo "送信中: $cmd_escaped"
+
+        adb -s "$device" shell input text "$cmd_escaped"
+        adb -s "$device" shell input keyevent 66  # Enterキーを送信
+        sleep 0.5  # コマンド処理のための短い待機
+    done
 done
 
-echo "コマンドの送信が完了しました。"
+echo "すべてのデバイスへのコマンド送信が完了しました。"
