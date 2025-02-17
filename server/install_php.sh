@@ -10,19 +10,18 @@ echo "=========================================="
 VERSION_CODENAME=$(env -i bash -c '. /etc/os-release; echo $VERSION_CODENAME')
 
 echo "📌 必要なパッケージをインストール中..."
+sudo apt update -y
 sudo apt install -y gnupg2 ca-certificates apt-transport-https software-properties-common lsb-release
 
 echo "📌 PHP リポジトリ (ppa:ondrej/php) を追加..."
-sudo apt install -y software-properties-common
 sudo add-apt-repository -y ppa:ondrej/php
-sudo apt update
+sudo apt update -y
 
 # ======================================================================
 # PHP の最新バージョンを取得
 # ======================================================================
 echo "📌 利用可能な PHP バージョンを確認..."
-sudo apt update
-PHP_VERSION=$(apt-cache search ^php[0-9].[0-9]$ | awk '{print $1}' | sort -V | tail -n 1 | sed 's/php//')
+PHP_VERSION=$(apt-cache madison php | awk '{print $3}' | grep -Eo '[0-9]+\.[0-9]+' | sort -V | tail -n 1)
 
 if [ -z "$PHP_VERSION" ]; then
     echo "❌ エラー: PHP のバージョンを取得できませんでした。"
@@ -42,6 +41,14 @@ sudo apt install -y \
     "php$PHP_VERSION-bcmath"  "php$PHP_VERSION-intl"     "php$PHP_VERSION-soap"  "php$PHP_VERSION-readline" \
     "php$PHP_VERSION-opcache" "php$PHP_VERSION-xmlrpc"   "php$PHP_VERSION-redis" "php$PHP_VERSION-imagick"  \
     "php$PHP_VERSION-dev"     "php$PHP_VERSION-ldap"
+
+# ======================================================================
+# PHP のデフォルトバージョンを設定
+# ======================================================================
+echo "📌 PHP のデフォルトバージョンを設定..."
+sudo update-alternatives --set php /usr/bin/php$PHP_VERSION
+sudo update-alternatives --set php-config /usr/bin/php-config$PHP_VERSION
+sudo update-alternatives --set phpize /usr/bin/phpize$PHP_VERSION
 
 # ======================================================================
 # PHP のバージョン確認
