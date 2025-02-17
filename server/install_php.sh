@@ -12,9 +12,10 @@ VERSION_CODENAME=$(env -i bash -c '. /etc/os-release; echo $VERSION_CODENAME')
 echo "📌 必要なパッケージをインストール中..."
 sudo apt install -y gnupg2 ca-certificates apt-transport-https software-properties-common lsb-release
 
-echo "📌 PHP リポジトリを追加..."
-wget -qO - https://packages.sury.org/php/apt.gpg | sudo apt-key add -
-echo "deb https://packages.sury.org/php/ $VERSION_CODENAME main" | sudo tee /etc/apt/sources.list.d/php.list
+echo "📌 PHP リポジトリ (ppa:ondrej/php) を追加..."
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y ppa:ondrej/php
+sudo apt update
 
 # ======================================================================
 # PHP の最新バージョンを取得
