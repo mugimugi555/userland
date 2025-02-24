@@ -31,8 +31,10 @@ cd ~/opencv_build ;
 rm -rf opencv opencv_contrib ;
 
 # OpenCV リポジトリを取得
-git clone --depth=1 https://github.com/opencv/opencv.git ;
-git clone --depth=1 https://github.com/opencv/opencv_contrib.git ;
+#git clone --depth=1 https://github.com/opencv/opencv.git ;
+#git clone --depth=1 https://github.com/opencv/opencv_contrib.git ;
+wget https://codeload.github.com/opencv/opencv_contrib/zip/refs/heads/4.x
+wget https://codeload.github.com/opencv/opencv/zip/refs/heads/4.x
 
 # ======================================================================================================================
 # OpenCV のビルド & インストール（Headless 版）
