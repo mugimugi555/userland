@@ -17,7 +17,7 @@ sudo apt install -y                                              \
   build-essential cmake git pkg-config                           \
   libavcodec-dev libavformat-dev libswscale-dev libv4l-dev       \
   libjpeg-dev libpng-dev libtiff-dev openexr gfortran            \
-  libtbb2 libtbb-dev libdc1394-22-dev python3-dev python3-numpy  \
+  libtbb2 libtbb-dev libdc1394-dev python3-dev python3-numpy  \
   ffmpeg imagemagick ;
 
 # ======================================================================================================================
