@@ -13,12 +13,12 @@ sudo apt upgrade -y ;
 # ======================================================================================================================
 # 必要なライブラリのインストール
 # ======================================================================================================================
-sudo apt install -y                                              \
-  build-essential cmake git pkg-config                           \
-  libavcodec-dev libavformat-dev libswscale-dev libv4l-dev       \
-  libjpeg-dev libpng-dev libtiff-dev openexr gfortran            \
-  libtbb2 libtbb-dev libdc1394-dev python3-dev python3-numpy  \
-  ffmpeg imagemagick ;
+sudo apt install -y                                          \
+  build-essential cmake git pkg-config                       \
+  libavcodec-dev libavformat-dev libswscale-dev libv4l-dev   \
+  libjpeg-dev libpng-dev libtiff-dev openexr gfortran        \
+  libtbb2 libtbb-dev libdc1394-dev python3-dev python3-numpy \
+  ffmpeg imagemagick unzip;
 
 # ======================================================================================================================
 # OpenCV ソースコードの取得
@@ -33,13 +33,15 @@ rm -rf opencv opencv_contrib ;
 # OpenCV リポジトリを取得
 #git clone --depth=1 https://github.com/opencv/opencv.git ;
 #git clone --depth=1 https://github.com/opencv/opencv_contrib.git ;
-wget https://codeload.github.com/opencv/opencv_contrib/zip/refs/heads/4.x
-wget https://codeload.github.com/opencv/opencv/zip/refs/heads/4.x
+wget https://codeload.github.com/opencv/opencv/zip/refs/heads/4.x         -o opencv.zip
+wget https://codeload.github.com/opencv/opencv_contrib/zip/refs/heads/4.x -o opencv_contrib.zip
+unzip opencv.zip
+unzip opencv_contrib.zip
 
 # ======================================================================================================================
 # OpenCV のビルド & インストール（Headless 版）
 # ======================================================================================================================
-cd ~/opencv_build/opencv ;
+cd ~/opencv_build/opencv-4.x ;
 mkdir -p build ;
 cd build ;
 
@@ -48,7 +50,7 @@ cmake                                \
   -D CMAKE_BUILD_TYPE=RELEASE        \
   -D CMAKE_INSTALL_PREFIX=/usr/local \
   -D OPENCV_GENERATE_PKGCONFIG=ON    \
-  -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
+  -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib-4.x/modules \
   -D BUILD_EXAMPLES=OFF              \
   -D BUILD_opencv_highgui=OFF        \
   -D BUILD_opencv_apps=OFF           \
