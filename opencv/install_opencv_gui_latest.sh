@@ -41,7 +41,7 @@ unzip opencv_contrib.zip
 # ======================================================================================================================
 # OpenCV のビルド & インストール
 # ======================================================================================================================
-cd ~/opencv_build/opencv ;
+cd ~/opencv_build/opencv-4.x ;
 mkdir -p build ;
 cd build ;
 
@@ -52,7 +52,7 @@ cmake                                \
   -D INSTALL_C_EXAMPLES=ON           \
   -D INSTALL_PYTHON_EXAMPLES=ON      \
   -D OPENCV_GENERATE_PKGCONFIG=ON    \
-  -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
+  -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib-4.x/modules \
   -D BUILD_EXAMPLES=ON .. ;
 
 # コンパイル
