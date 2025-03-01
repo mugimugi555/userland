@@ -18,7 +18,7 @@ sudo apt install -y                                              \
   libavcodec-dev libavformat-dev libswscale-dev libv4l-dev       \
   libxvidcore-dev libx264-dev libjpeg-dev libpng-dev libtiff-dev \
   gfortran openexr libatlas-base-dev python3-dev python3-numpy   \
-  libtbb2 libtbb-dev libdc1394-22-dev ;
+  libtbb2 libtbb-dev libdc1394-dev unzip;
 
 # ======================================================================================================================
 # OpenCV ソースコードの取得
@@ -31,13 +31,17 @@ cd ~/opencv_build ;
 rm -rf opencv opencv_contrib ;
 
 # OpenCV リポジトリを取得
-git clone --depth=1 https://github.com/opencv/opencv.git ;
-git clone --depth=1 https://github.com/opencv/opencv_contrib.git ;
+#git clone --depth=1 https://github.com/opencv/opencv.git ;
+#git clone --depth=1 https://github.com/opencv/opencv_contrib.git ;
+wget https://codeload.github.com/opencv/opencv/zip/refs/heads/4.x         -o opencv.zip
+wget https://codeload.github.com/opencv/opencv_contrib/zip/refs/heads/4.x -o opencv_contrib.zip
+unzip opencv.zip
+unzip opencv_contrib.zip
 
 # ======================================================================================================================
 # OpenCV のビルド & インストール
 # ======================================================================================================================
-cd ~/opencv_build/opencv ;
+cd ~/opencv_build/opencv-4.x ;
 mkdir -p build ;
 cd build ;
 
@@ -48,7 +52,7 @@ cmake                                \
   -D INSTALL_C_EXAMPLES=ON           \
   -D INSTALL_PYTHON_EXAMPLES=ON      \
   -D OPENCV_GENERATE_PKGCONFIG=ON    \
-  -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
+  -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib-4.x/modules \
   -D BUILD_EXAMPLES=ON .. ;
 
 # コンパイル
